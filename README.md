@@ -1,16 +1,48 @@
-# ava_take_home
+# Ava Flutter Take-Home Project
 
-Take home project for Ava interview
+This is the implementation of the provided Figma design using Flutter.  
+https://www.figma.com/design/fgAwUqgFK30hJqYo0byDeG/Untitled?node-id=0-1&p=f
+The project demonstrates clean architecture, state management, and responsiveness while following Flutter best practices.
+
+---
+
+## 📱 Features
+- Implements all screens and widgets as specified in the Figma design.
+- Pixel-perfect UI with responsive layouts.
+- Handles user interactions (buttons, inputs, gestures) as per requirements.
+- Clean and maintainable architecture.
+
+---
+
+## 🛠️ Tech Stack
+- **Flutter** (latest stable version)
+- **State Management:** Cubit (from `flutter_bloc`)
+  > **Note:** I chose Cubit for its simplicity and clarity. It enables predictable state management with minimal boilerplate while keeping the code highly testable and maintainable.
+
+---
+
+## Implementation Details
+
+- **State Management:** Used Cubit (`flutter_bloc`) for predictable state handling.
+- **Persistence:** User’s employment data is saved locally using `shared_preferences`, ensuring it persists across app restarts.
+- **Animations:**
+    - Credit score indicator uses a custom animated widget.
+    - Chart uses `AnimatedContainer`/`TweenAnimationBuilder`.
+    - Progress bars use `AnimatedContainer` for smooth transitions.
+- **Navigation:** Used `go_router` for clean screen transitions.
+- **Testing:** Added widget tests for form validation and Cubit tests for state changes.
+
+---
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
+- Flutter SDK installed (>= 3.x.x)
+- Dart SDK included with Flutter
+- IDE: Android Studio / VSCode
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installation
+Clone this repository:
+```bash
+git clone  https://github.com/aaguil10/ava_take_home.git
+cd ava_take_home
