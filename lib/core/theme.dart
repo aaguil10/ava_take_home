@@ -10,7 +10,24 @@ final ColorScheme _myScheme = ColorScheme.fromSeed(seedColor: primaryPurple)
     );
 
 final ThemeData appTheme = ThemeData(
-  textTheme: GoogleFonts.playballTextTheme(), // Closest to 'At Hauss' font
+  textTheme: GoogleFonts.robotoTextTheme().copyWith(
+    titleMedium: GoogleFonts.roboto(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: textPrimaryDark,
+    ),
+    bodyMedium: GoogleFonts.roboto(
+      fontSize: 12,
+      fontWeight: FontWeight.bold,
+      color: textLight,
+    ),
+    labelLarge: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.bold),
+    labelSmall: GoogleFonts.roboto(
+      fontSize: 8,
+      fontWeight: FontWeight.bold,
+      color: textPrimaryDark,
+    ),
+  ), // Closest to 'At Hauss' font
   cardTheme: CardThemeData(
     color: Colors.white,
     elevation: 2,
@@ -19,9 +36,9 @@ final ThemeData appTheme = ThemeData(
   colorScheme: _myScheme,
   appBarTheme: AppBarTheme(
     backgroundColor: _myScheme.primary,
-    titleTextStyle: GoogleFonts.playball(
+    titleTextStyle: GoogleFonts.roboto(
       fontSize: 16,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.bold,
       color: Colors.white,
     ),
   ),
