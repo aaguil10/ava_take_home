@@ -52,7 +52,10 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: GridView.extent(maxCrossAxisExtent: 300, children: []),
+                child: GridView.extent(
+                  maxCrossAxisExtent: 300,
+                  children: [Text('Chart')],
+                ),
               ),
             ],
           );

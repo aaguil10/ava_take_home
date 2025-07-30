@@ -6,6 +6,8 @@ https://www.figma.com/design/fgAwUqgFK30hJqYo0byDeG/Untitled?node-id=0-1&p=f
 The project demonstrates clean architecture, state management, and responsiveness while following
 Flutter best practices.
 
+**Live Demo:** https://ava-take-home.web.app/
+
 ---
 
 ## 📱 Features
