@@ -12,17 +12,15 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(isLoading: true));
     await Future.delayed(const Duration(milliseconds: 500));
 
-    final score = await repository.fetchCreditScore();
     final factors = await repository.fetchCreditFactors();
     final accounts = await repository.fetchAccountDetails();
-    final history = await repository.fetchCreditScoreHistory();
+    final creditScoreHistory = await repository.fetchCreditScoreHistory();
 
     emit(
       HomeState(
-        score: score,
         factors: factors,
         accounts: accounts,
-        history: history,
+        creditScoreHistory: creditScoreHistory,
         isLoading: false,
       ),
     );

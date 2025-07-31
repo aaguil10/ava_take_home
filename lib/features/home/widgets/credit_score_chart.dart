@@ -1,11 +1,12 @@
 import 'package:ava_take_home/core/colors.dart';
-import 'package:ava_take_home/features/home/cubit/home_cubit.dart';
+import 'package:ava_take_home/features/home/models/credit_score.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreditScoreChart extends StatefulWidget {
-  const CreditScoreChart({super.key});
+  final List<CreditScore> history;
+
+  const CreditScoreChart({super.key, required this.history});
 
   @override
   State<CreditScoreChart> createState() => _CreditScoreChartState();
@@ -15,10 +16,18 @@ class _CreditScoreChartState extends State<CreditScoreChart>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _animation;
+  late final int delta;
 
   @override
   void initState() {
     super.initState();
+    if (widget.history.length >= 2) {
+      delta =
+          widget.history.last.value -
+          widget.history[widget.history.length - 2].value;
+    } else {
+      delta = 0;
+    }
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -43,19 +52,18 @@ class _CreditScoreChartState extends State<CreditScoreChart>
 
   @override
   Widget build(BuildContext context) {
-    final dataPoints = context.select((HomeCubit cubit) => cubit.state.history);
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
         // Compute how many points to show based on animation value
-        final count = (dataPoints.length * _animation.value)
-            .clamp(1, dataPoints.length)
+        final count = (widget.history.length * _animation.value)
+            .clamp(1, widget.history.length)
             .toInt();
-        final spots = dataPoints
+        final spots = widget.history
             .sublist(0, count)
             .asMap()
             .entries
-            .map((e) => FlSpot(e.key.toDouble(), e.value))
+            .map((e) => FlSpot(e.key.toDouble(), e.value.value.toDouble()))
             .toList();
         return Card(
           shape: RoundedRectangleBorder(
@@ -111,13 +119,13 @@ class _CreditScoreChartState extends State<CreditScoreChart>
                       height: 20,
                       width: 50,
                       decoration: BoxDecoration(
-                        color: secondaryGreen,
+                        color: delta > 0 ? secondaryGreen : errorRed,
                         borderRadius: BorderRadius.all(Radius.circular(16)),
                       ),
                     ),
                     Text(
                       textAlign: TextAlign.center,
-                      "+2pts",
+                      delta > 0 ? "+${delta}pts" : "${delta}pts",
                       style: Theme.of(
                         context,
                       ).textTheme.titleMedium?.copyWith(color: Colors.white),

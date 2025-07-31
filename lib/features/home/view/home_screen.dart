@@ -40,11 +40,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 24, right: 20, left: 20),
-                  child: CreditScoreCard(
-                    score: state.score.value,
-                    label: state.score.label,
-                    delta: state.score.delta,
-                  ),
+                  child: CreditScoreCard(history: state.creditScoreHistory),
                 ),
               ),
               Expanded(
@@ -53,38 +49,37 @@ class HomeScreen extends StatelessWidget {
                   maxCrossAxisExtent: 375,
                   crossAxisSpacing: 16,
                   children: [
-                    GridTile(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 32),
-                          Text(
-                            'Chart',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          CreditScoreChart(),
-                        ],
-                      ),
+                    _buildTile(
+                      context,
+                      'Chart',
+                      CreditScoreChart(history: state.creditScoreHistory),
                     ),
-                    GridTile(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 32),
-                          Text(
-                            'Creadit factors',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          Card(),
-                        ],
-                      ),
-                    ),
+                    _buildTile(context, 'Credit factors', Card()),
+                    _buildTile(context, 'Account details', Card()),
+                    _buildTile(context, 'Open credit card accounts', Card()),
                   ],
                 ),
               ),
             ],
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildTile(BuildContext context, String title, Widget child) {
+    return GridTile(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 32),
+          Padding(
+            padding: EdgeInsets.only(left: 8),
+            child: Text(title, style: Theme.of(context).textTheme.titleLarge),
+          ),
+          SizedBox(height: 8),
+          child,
+        ],
       ),
     );
   }

@@ -3,40 +3,36 @@ import 'package:ava_take_home/features/home/models/credit_factor.dart';
 import 'package:ava_take_home/features/home/models/credit_score.dart';
 
 class HomeState {
-  final CreditScore score;
   final List<CreditFactor> factors;
   final List<AccountDetail> accounts;
-  final List<double> history;
+  final List<CreditScore> creditScoreHistory;
   final bool isLoading;
 
   const HomeState({
-    required this.score,
     required this.factors,
     required this.accounts,
-    required this.history,
+    required this.creditScoreHistory,
     this.isLoading = false,
   });
 
   HomeState copyWith({
-    CreditScore? score,
     List<CreditFactor>? factors,
     List<AccountDetail>? accounts,
+    List<CreditScore>? creditScoreHistory,
     bool? isLoading,
   }) {
     return HomeState(
-      score: score ?? this.score,
       factors: factors ?? this.factors,
       accounts: accounts ?? this.accounts,
-      history: history ?? this.history,
+      creditScoreHistory: creditScoreHistory ?? this.creditScoreHistory,
       isLoading: isLoading ?? this.isLoading,
     );
   }
 
   factory HomeState.initial() => HomeState(
-    score: CreditScore(value: 0, label: 'Good', delta: 0),
     factors: [],
     accounts: [],
-    history: [],
+    creditScoreHistory: [],
     isLoading: true,
   );
 }

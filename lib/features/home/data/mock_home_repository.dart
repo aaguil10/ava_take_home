@@ -9,12 +9,6 @@ import 'home_repository.dart';
 /// Simple fake repository returning static data with a delay
 class MockHomeRepository implements HomeRepository {
   @override
-  Future<CreditScore> fetchCreditScore() async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return const CreditScore(value: 720, label: 'Good', delta: 2);
-  }
-
-  @override
   Future<List<CreditFactor>> fetchCreditFactors() async {
     await Future.delayed(const Duration(milliseconds: 300));
     return const [
@@ -34,8 +28,33 @@ class MockHomeRepository implements HomeRepository {
   }
 
   @override
-  Future<List<double>> fetchCreditScoreHistory() async {
+  Future<List<CreditScore>> fetchCreditScoreHistory() async {
     await Future.delayed(const Duration(milliseconds: 300));
-    return const [610, 600, 620, 650, 625, 675, 650, 660, 680, 700, 695];
+    return [
+      CreditScore(value: 610, label: 'Good', dateTime: _buildDateMonthsAgo(11)),
+      CreditScore(value: 600, label: 'Good', dateTime: _buildDateMonthsAgo(10)),
+      CreditScore(value: 620, label: 'Good', dateTime: _buildDateMonthsAgo(9)),
+      CreditScore(value: 650, label: 'Good', dateTime: _buildDateMonthsAgo(8)),
+      CreditScore(value: 625, label: 'Good', dateTime: _buildDateMonthsAgo(7)),
+      CreditScore(value: 675, label: 'Good', dateTime: _buildDateMonthsAgo(6)),
+      CreditScore(value: 650, label: 'Good', dateTime: _buildDateMonthsAgo(5)),
+      CreditScore(value: 660, label: 'Good', dateTime: _buildDateMonthsAgo(4)),
+      CreditScore(value: 680, label: 'Good', dateTime: _buildDateMonthsAgo(3)),
+      CreditScore(value: 700, label: 'Good', dateTime: _buildDateMonthsAgo(2)),
+      CreditScore(value: 695, label: 'Good', dateTime: _buildDateMonthsAgo(1)),
+      CreditScore(value: 697, label: 'Good', dateTime: _buildDateMonthsAgo(0)),
+    ];
+  }
+
+  DateTime _buildDateMonthsAgo(int monthsAgo) {
+    final now = DateTime.now();
+    return DateTime(
+      now.year,
+      now.month - monthsAgo,
+      now.day,
+      now.hour,
+      now.minute,
+      now.second,
+    );
   }
 }

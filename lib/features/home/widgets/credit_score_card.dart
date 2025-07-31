@@ -1,18 +1,12 @@
 import 'package:ava_take_home/core/colors.dart';
+import 'package:ava_take_home/features/home/models/credit_score.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CreditScoreCard extends StatefulWidget {
-  final int score;
-  final String label;
-  final int delta;
+  final List<CreditScore> history;
 
-  const CreditScoreCard({
-    super.key,
-    required this.score,
-    required this.label,
-    required this.delta,
-  });
+  const CreditScoreCard({super.key, required this.history});
 
   @override
   State<CreditScoreCard> createState() => _CreditScoreCardState();
@@ -22,17 +16,30 @@ class _CreditScoreCardState extends State<CreditScoreCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  late int score;
+  late String label;
+  late int delta;
 
   @override
   void initState() {
     super.initState();
+    score = widget.history.last.value;
+    label = widget.history.last.label;
+    if (widget.history.length >= 2) {
+      delta =
+          widget.history.last.value -
+          widget.history[widget.history.length - 2].value;
+    } else {
+      delta = 0;
+    }
+
     _controller = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
     );
     _animation = Tween<double>(
       begin: 0,
-      end: widget.score.toDouble(),
+      end: score.toDouble(),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
     _controller.forward();
   }
@@ -40,10 +47,12 @@ class _CreditScoreCardState extends State<CreditScoreCard>
   @override
   void didUpdateWidget(CreditScoreCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.score != widget.score) {
+    final oldScore = oldWidget.history.last.value;
+    final newScore = widget.history.last.value;
+    if (oldScore != newScore) {
       _animation = Tween<double>(
-        begin: oldWidget.score.toDouble(),
-        end: widget.score.toDouble(),
+        begin: oldScore.toDouble(),
+        end: newScore.toDouble(),
       ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
       _controller
         ..reset()
@@ -101,13 +110,13 @@ class _CreditScoreCardState extends State<CreditScoreCard>
               height: 20,
               width: 50,
               decoration: BoxDecoration(
-                color: secondaryGreen,
+                color: delta > 0 ? secondaryGreen : errorRed,
                 borderRadius: BorderRadius.all(Radius.circular(16)),
               ),
             ),
             Text(
               textAlign: TextAlign.center,
-              "+${widget.delta}pts",
+              delta > 0 ? "+${delta}pts" : "${delta}pts",
               style: Theme.of(
                 context,
               ).textTheme.titleMedium?.copyWith(color: Colors.white),
@@ -169,7 +178,7 @@ class _CreditScoreCardState extends State<CreditScoreCard>
                 ),
               ),
               const SizedBox(height: 0),
-              Text(widget.label, style: Theme.of(context).textTheme.labelSmall),
+              Text(label, style: Theme.of(context).textTheme.labelSmall),
             ],
           ),
         ],
