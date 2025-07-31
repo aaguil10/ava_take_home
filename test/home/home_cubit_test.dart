@@ -17,8 +17,20 @@ void main() {
 
     setUp(() {
       mockRepo = MockHomeRepository();
-      when(() => mockRepo.fetchCreditScore()).thenAnswer(
-        (_) async => const CreditScore(value: 720, label: 'Good', delta: 2),
+      final now = DateTime.now();
+      final before = DateTime(
+        now.year,
+        now.month - 1,
+        now.day,
+        now.hour,
+        now.minute,
+        now.second,
+      );
+      when(() => mockRepo.fetchCreditScoreHistory()).thenAnswer(
+        (_) async => [
+          CreditScore(value: 718, label: 'Good', dateTime: before),
+          CreditScore(value: 720, label: 'Good', dateTime: now),
+        ],
       );
       when(() => mockRepo.fetchCreditFactors()).thenAnswer(
         (_) async => const [
@@ -39,7 +51,7 @@ void main() {
 
     test('initial state is HomeState.initial()', () {
       expect(homeCubit.state.isLoading, true);
-      expect(homeCubit.state.score.value, 0);
+      expect(homeCubit.state.creditScoreHistory, []);
     });
 
     blocTest<HomeCubit, HomeState>(
@@ -49,7 +61,11 @@ void main() {
       wait: const Duration(milliseconds: 600),
       expect: () => [
         isA<HomeState>().having((s) => s.isLoading, 'loading', true),
-        isA<HomeState>().having((s) => s.score.value, 'score', 720),
+        isA<HomeState>().having(
+          (s) => s.creditScoreHistory.last.value,
+          'score',
+          720,
+        ),
       ],
     );
 
