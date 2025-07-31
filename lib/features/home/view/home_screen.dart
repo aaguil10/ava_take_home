@@ -1,5 +1,6 @@
 import 'package:ava_take_home/features/home/cubit/home_cubit.dart';
 import 'package:ava_take_home/features/home/cubit/home_state.dart';
+import 'package:ava_take_home/features/home/widgets/credit_factors_carousel.dart';
 import 'package:ava_take_home/features/home/widgets/credit_score_card.dart';
 import 'package:ava_take_home/features/home/widgets/credit_score_chart.dart';
 import 'package:flutter/material.dart';
@@ -44,20 +45,39 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: GridView.extent(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  maxCrossAxisExtent: 375,
-                  crossAxisSpacing: 16,
-                  children: [
-                    _buildTile(
-                      context,
-                      'Chart',
-                      CreditScoreChart(history: state.creditScoreHistory),
-                    ),
-                    _buildTile(context, 'Credit factors', Card()),
-                    _buildTile(context, 'Account details', Card()),
-                    _buildTile(context, 'Open credit card accounts', Card()),
-                  ],
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
+                  itemCount: 4,
+                  separatorBuilder: (_, __) => const SizedBox(height: 16),
+                  itemBuilder: (context, index) {
+                    switch (index) {
+                      case 0:
+                        return _buildTile(
+                          context,
+                          'Chart',
+                          CreditScoreChart(history: state.creditScoreHistory),
+                        );
+                      case 1:
+                        return _buildTile(
+                          context,
+                          'Credit factors',
+                          CreditFactorsCarousel(factors: state.factors),
+                        );
+                      case 2:
+                        return _buildTile(context, 'Account details', Card());
+                      case 3:
+                        return _buildTile(
+                          context,
+                          'Open credit card accounts',
+                          Card(),
+                        );
+                      default:
+                        return const SizedBox.shrink();
+                    }
+                  },
                 ),
               ),
             ],

@@ -12,9 +12,24 @@ class MockHomeRepository implements HomeRepository {
   Future<List<CreditFactor>> fetchCreditFactors() async {
     await Future.delayed(const Duration(milliseconds: 300));
     return const [
-      CreditFactor(name: 'Payment History', value: '100%', impact: 'High'),
-      CreditFactor(name: 'Credit Utilization', value: '4%', impact: 'Low'),
-      CreditFactor(name: 'Derogatory Marks', value: '0', impact: 'Medium'),
+      CreditFactor(
+        name: 'Payment History',
+        value: '100%',
+        impact: 'HIGH IMPACT',
+      ),
+      CreditFactor(
+        name: 'Credit Card Utilization',
+        value: '4%',
+        impact: 'LOW IMPACT',
+      ),
+      CreditFactor(name: 'Derogatory Marks', value: '2', impact: 'MED IMPACT'),
+      CreditFactor(
+        name: 'Age of Credit History',
+        value: '1ys 4mo',
+        impact: 'LOW IMPACT',
+      ),
+      CreditFactor(name: 'Hard Inquiries', value: '3', impact: 'MED IMPACT'),
+      CreditFactor(name: 'Total Accounts', value: '9', impact: 'MED IMPACT'),
     ];
   }
 
