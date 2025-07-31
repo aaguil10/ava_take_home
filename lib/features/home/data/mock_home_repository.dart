@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:ava_take_home/features/home/models/account_detail.dart';
+import 'package:ava_take_home/features/home/models/account_details.dart';
+import 'package:ava_take_home/features/home/models/credit_card_account.dart';
 import 'package:ava_take_home/features/home/models/credit_factor.dart';
 import 'package:ava_take_home/features/home/models/credit_score.dart';
 
@@ -8,6 +9,17 @@ import 'home_repository.dart';
 
 /// Simple fake repository returning static data with a delay
 class MockHomeRepository implements HomeRepository {
+  @override
+  Future<AccountDetails> fetchAccountDetails() async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return AccountDetails(
+      balance: 30,
+      creditLimit: 600,
+      spendLimit: 100,
+      currentSpend: 75,
+    );
+  }
+
   @override
   Future<List<CreditFactor>> fetchCreditFactors() async {
     await Future.delayed(const Duration(milliseconds: 300));
@@ -34,11 +46,11 @@ class MockHomeRepository implements HomeRepository {
   }
 
   @override
-  Future<List<AccountDetail>> fetchAccountDetails() async {
+  Future<List<CreditCardAccount>> fetchCreditCardAccounts() async {
     await Future.delayed(const Duration(milliseconds: 300));
     return const [
-      AccountDetail(name: 'Syncb/Amazon', balance: 1500, limit: 6300),
-      AccountDetail(name: 'Capital One', balance: 500, limit: 4000),
+      CreditCardAccount(name: 'Syncb/Amazon', balance: 1500, limit: 6300),
+      CreditCardAccount(name: 'Capital One', balance: 500, limit: 4000),
     ];
   }
 

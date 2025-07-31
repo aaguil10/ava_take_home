@@ -1,7 +1,7 @@
 import 'package:ava_take_home/features/home/cubit/home_cubit.dart';
 import 'package:ava_take_home/features/home/cubit/home_state.dart';
 import 'package:ava_take_home/features/home/data/home_repository.dart';
-import 'package:ava_take_home/features/home/models/account_detail.dart';
+import 'package:ava_take_home/features/home/models/credit_card_account.dart';
 import 'package:ava_take_home/features/home/models/credit_factor.dart';
 import 'package:ava_take_home/features/home/models/credit_score.dart';
 import 'package:bloc_test/bloc_test.dart';
@@ -37,9 +37,9 @@ void main() {
           CreditFactor(name: 'Payment History', value: '100%', impact: 'High'),
         ],
       );
-      when(() => mockRepo.fetchAccountDetails()).thenAnswer(
+      when(() => mockRepo.fetchCreditCardAccounts()).thenAnswer(
         (_) async => const [
-          AccountDetail(name: 'Syncb/Amazon', balance: 1500, limit: 6300),
+          CreditCardAccount(name: 'Syncb/Amazon', balance: 1500, limit: 6300),
         ],
       );
       homeCubit = HomeCubit(repository: mockRepo);

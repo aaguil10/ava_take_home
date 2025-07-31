@@ -64,7 +64,7 @@ class _CreditFactorCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              height: 36,
+              height: 40,
               width: 90,
               child: Text(
                 factor.name,

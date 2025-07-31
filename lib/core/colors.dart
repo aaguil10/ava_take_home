@@ -10,3 +10,4 @@ const Color errorRed = Color(0xFFA34848);
 const Color textPrimaryDark = Color(0xFF2A1E39);
 const Color textLight = Color(0xFF736B7C);
 const Color textGreen = Color(0xFF003928);
+const Color textManilla = Color(0xFFF2F0ED);

@@ -1,9 +1,9 @@
-class AccountDetail {
+class CreditCardAccount {
   final String name; // e.g., "Syncb/Amazon"
   final double balance; // current balance
   final double limit; // credit limit
 
-  const AccountDetail({
+  const CreditCardAccount({
     required this.name,
     required this.balance,
     required this.limit,

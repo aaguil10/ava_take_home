@@ -3,6 +3,7 @@ import 'package:ava_take_home/features/home/cubit/home_state.dart';
 import 'package:ava_take_home/features/home/widgets/credit_factors_carousel.dart';
 import 'package:ava_take_home/features/home/widgets/credit_score_card.dart';
 import 'package:ava_take_home/features/home/widgets/credit_score_chart.dart';
+import 'package:ava_take_home/features/home/widgets/spend_limit_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -67,7 +68,19 @@ class HomeScreen extends StatelessWidget {
                           CreditFactorsCarousel(factors: state.factors),
                         );
                       case 2:
-                        return _buildTile(context, 'Account details', Card());
+                        return _buildTile(
+                          context,
+                          'Account details',
+                          Column(
+                            children: [
+                              SpendLimitCard(
+                                accountDetails: state.accountDetails,
+                              ),
+                              SizedBox(height: 16),
+                              Card(),
+                            ],
+                          ),
+                        );
                       case 3:
                         return _buildTile(
                           context,

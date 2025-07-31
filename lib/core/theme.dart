@@ -26,6 +26,11 @@ final ThemeData appTheme = ThemeData(
       fontWeight: FontWeight.bold,
       color: textPrimaryDark,
     ),
+    bodyLarge: GoogleFonts.roboto(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: textPrimaryDark,
+    ),
     bodyMedium: GoogleFonts.roboto(
       fontSize: 12,
       fontWeight: FontWeight.bold,
