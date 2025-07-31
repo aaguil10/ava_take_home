@@ -11,14 +11,29 @@ final ColorScheme _myScheme = ColorScheme.fromSeed(seedColor: primaryPurple)
 
 final ThemeData appTheme = ThemeData(
   textTheme: GoogleFonts.robotoTextTheme().copyWith(
+    titleLarge: GoogleFonts.roboto(
+      fontSize: 22,
+      fontWeight: FontWeight.bold,
+      color: textPrimaryDark,
+    ),
     titleMedium: GoogleFonts.roboto(
       fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: textPrimaryDark,
+    ),
+    titleSmall: GoogleFonts.roboto(
+      fontSize: 12,
       fontWeight: FontWeight.bold,
       color: textPrimaryDark,
     ),
     bodyMedium: GoogleFonts.roboto(
       fontSize: 12,
       fontWeight: FontWeight.bold,
+      color: textLight,
+    ),
+    bodySmall: GoogleFonts.roboto(
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
       color: textLight,
     ),
     labelLarge: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.bold),

@@ -9,4 +9,6 @@ abstract class HomeRepository {
   Future<List<CreditFactor>> fetchCreditFactors();
 
   Future<List<AccountDetail>> fetchAccountDetails();
+
+  Future<List<double>> fetchCreditScoreHistory();
 }

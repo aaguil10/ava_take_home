@@ -32,4 +32,10 @@ class MockHomeRepository implements HomeRepository {
       AccountDetail(name: 'Capital One', balance: 500, limit: 4000),
     ];
   }
+
+  @override
+  Future<List<double>> fetchCreditScoreHistory() async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return const [610, 600, 620, 650, 625, 675, 650, 660, 680, 700, 695];
+  }
 }

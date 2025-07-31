@@ -6,12 +6,14 @@ class HomeState {
   final CreditScore score;
   final List<CreditFactor> factors;
   final List<AccountDetail> accounts;
+  final List<double> history;
   final bool isLoading;
 
   const HomeState({
     required this.score,
     required this.factors,
     required this.accounts,
+    required this.history,
     this.isLoading = false,
   });
 
@@ -25,6 +27,7 @@ class HomeState {
       score: score ?? this.score,
       factors: factors ?? this.factors,
       accounts: accounts ?? this.accounts,
+      history: history ?? this.history,
       isLoading: isLoading ?? this.isLoading,
     );
   }
@@ -33,6 +36,7 @@ class HomeState {
     score: CreditScore(value: 0, label: 'Good', delta: 0),
     factors: [],
     accounts: [],
+    history: [],
     isLoading: true,
   );
 }

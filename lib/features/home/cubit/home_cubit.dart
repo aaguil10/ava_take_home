@@ -15,12 +15,14 @@ class HomeCubit extends Cubit<HomeState> {
     final score = await repository.fetchCreditScore();
     final factors = await repository.fetchCreditFactors();
     final accounts = await repository.fetchAccountDetails();
+    final history = await repository.fetchCreditScoreHistory();
 
     emit(
       HomeState(
         score: score,
         factors: factors,
         accounts: accounts,
+        history: history,
         isLoading: false,
       ),
     );
