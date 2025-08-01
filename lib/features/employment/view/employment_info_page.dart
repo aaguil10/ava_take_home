@@ -78,191 +78,225 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: creamBackground, leading: BackButton()),
-      body: BlocBuilder<EmploymentCubit, EmploymentState>(
-        builder: (context, state) {
+      body: BlocListener<EmploymentCubit, EmploymentState>(
+        listenWhen: (previous, current) {
+          return previous.info != current.info;
+        },
+        listener: (context, state) {
           final isEditing = state.mode == EmploymentMode.edit;
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                onChanged: _syncToCubit,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(context, state),
-                    const SizedBox(height: 16),
-                    _buildDropdown(
-                      label: 'Employment type',
-                      value: _employmentType,
-                      items: ['Full-time', 'Part-time', 'Contract'],
-                      enabled: isEditing,
-                      onChanged: (v) => setState(() => _employmentType = v),
-                    ),
-                    const SizedBox(height: 16),
-                    // Employer
-                    _buildTextField(
-                      'Employer',
-                      controller: _employerCtrl,
-                      enabled: isEditing,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                      'Job title',
-                      controller: _jobTitleCtrl,
-                      enabled: isEditing,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                      'Gross annual income',
-                      controller: _incomeCtrl,
-                      enabled: isEditing,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildDropdown(
-                      label: 'Pay frequency',
-                      value: _payFrequency,
-                      items: ['Bi-weekly', 'Monthly'],
-                      enabled: isEditing,
-                      onChanged: (v) => setState(() => _payFrequency = v),
-                    ),
-                    const SizedBox(height: 16),
-                    _buildPayday(isEditing),
-                    const SizedBox(height: 16),
-                    _buildDirectDepositToggle(isEditing),
 
-                    // Direct deposit toggle
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                      'Employer address',
-                      controller: _addressCtrl,
-                      enabled: isEditing,
-                      maxLines: 2,
-                    ),
-                    const SizedBox(height: 16),
-                    // Time with employer
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildDropdown(
-                            label: 'Time with employer',
-                            value: '$_years years',
-                            items: List.generate(10, (i) => '$i years'),
-                            enabled: isEditing,
-                            onChanged: (v) => setState(
-                              () => _years = int.parse(v.split(' ')[0]),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: _buildDropdown(
-                            label: '',
-                            value: '$_months months',
-                            items: List.generate(12, (i) => '$i months'),
-                            enabled: isEditing,
-                            onChanged: (v) => setState(
-                              () => _months = int.parse(v.split(' ')[0]),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    if (isEditing)
-                      SizedBox(
-                        height: 45,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(
-                              context,
-                            ).colorScheme.primary,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            elevation: 0,
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState?.validate() ?? false) {
-                              _syncToCubit();
-                              context.read<EmploymentCubit>().saveAndConfirm();
-                            }
-                          },
-                          child: const Text('Continue'),
-                        ),
+          // Skip if in edit mode to avoid overwriting
+          if (isEditing) return;
+
+          final info = state.info;
+          _employerCtrl.text = info.employer;
+          _jobTitleCtrl.text = info.jobTitle;
+          _incomeCtrl.text = info.grossAnnualIncome;
+          _addressCtrl.text = info.employerAddress;
+          setState(() {
+            _nextPayday = info.nextPayday;
+            _employmentType = info.employmentType.isNotEmpty
+                ? info.employmentType
+                : 'Full-time';
+            _payFrequency = info.payFrequency.isNotEmpty
+                ? info.payFrequency
+                : 'Bi-weekly';
+            _directDeposit = info.directDeposit;
+            _years = info.timeWithEmployerYears;
+            _months = info.timeWithEmployerMonths;
+          });
+        },
+        child: BlocBuilder<EmploymentCubit, EmploymentState>(
+          builder: (context, state) {
+            final isEditing = state.mode == EmploymentMode.edit;
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  onChanged: _syncToCubit,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildHeader(context, state),
+                      const SizedBox(height: 16),
+                      _buildDropdown(
+                        label: 'Employment type',
+                        value: _employmentType,
+                        items: ['Full-time', 'Part-time', 'Contract'],
+                        enabled: isEditing,
+                        onChanged: (v) => setState(() => _employmentType = v),
                       ),
-                    if (!isEditing)
-                      Column(
+                      const SizedBox(height: 16),
+                      // Employer
+                      _buildTextField(
+                        'Employer',
+                        controller: _employerCtrl,
+                        enabled: isEditing,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildTextField(
+                        'Job title',
+                        controller: _jobTitleCtrl,
+                        enabled: isEditing,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildTextField(
+                        'Gross annual income',
+                        controller: _incomeCtrl,
+                        enabled: isEditing,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildDropdown(
+                        label: 'Pay frequency',
+                        value: _payFrequency,
+                        items: ['Bi-weekly', 'Monthly'],
+                        enabled: isEditing,
+                        onChanged: (v) => setState(() => _payFrequency = v),
+                      ),
+                      const SizedBox(height: 16),
+                      _buildPayday(isEditing),
+                      const SizedBox(height: 16),
+                      _buildDirectDepositToggle(isEditing),
+
+                      // Direct deposit toggle
+                      const SizedBox(height: 16),
+                      _buildTextField(
+                        'Employer address',
+                        controller: _addressCtrl,
+                        enabled: isEditing,
+                        maxLines: 2,
+                      ),
+                      const SizedBox(height: 16),
+                      // Time with employer
+                      Row(
                         children: [
-                          SizedBox(
-                            height: 45,
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2,
-                                ),
-                                backgroundColor: creamBackground,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              onPressed: () =>
-                                  context.read<EmploymentCubit>().toggleEdit(),
-                              child: Text(
-                                'Edit',
-                                style: Theme.of(context).textTheme.titleMedium
-                                    ?.copyWith(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                    ),
+                          Expanded(
+                            child: _buildDropdown(
+                              label: 'Time with employer',
+                              value: '$_years years',
+                              items: List.generate(10, (i) => '$i years'),
+                              enabled: isEditing,
+                              onChanged: (v) => setState(
+                                () => _years = int.parse(v.split(' ')[0]),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 10),
-                          SizedBox(
-                            height: 45,
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                elevation: 0,
-                              ),
-                              onPressed: () {
-                                context.pop(true);
-                              },
-                              child: Text(
-                                'Confirm',
-                                style: Theme.of(context).textTheme.titleMedium
-                                    ?.copyWith(color: Colors.white),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: _buildDropdown(
+                              label: '',
+                              value: '$_months months',
+                              items: List.generate(12, (i) => '$i months'),
+                              enabled: isEditing,
+                              onChanged: (v) => setState(
+                                () => _months = int.parse(v.split(' ')[0]),
                               ),
                             ),
                           ),
                         ],
                       ),
-                  ],
+                      const SizedBox(height: 24),
+                      if (isEditing)
+                        SizedBox(
+                          height: 45,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                            ),
+                            onPressed: () {
+                              if (_formKey.currentState?.validate() ?? false) {
+                                _syncToCubit();
+                                context
+                                    .read<EmploymentCubit>()
+                                    .saveAndConfirm();
+                              }
+                            },
+                            child: const Text('Continue'),
+                          ),
+                        ),
+                      if (!isEditing)
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 45,
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                    width: 2,
+                                  ),
+                                  backgroundColor: creamBackground,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                onPressed: () => context
+                                    .read<EmploymentCubit>()
+                                    .toggleEdit(),
+                                child: Text(
+                                  'Edit',
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
+                                      ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              height: 45,
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.primary,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  elevation: 0,
+                                ),
+                                onPressed: () {
+                                  context.pop(true);
+                                },
+                                child: Text(
+                                  'Confirm',
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
