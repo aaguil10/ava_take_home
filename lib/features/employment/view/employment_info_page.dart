@@ -178,9 +178,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
                             backgroundColor: Theme.of(
                               context,
                             ).colorScheme.primary,
-                            // deep purple
                             foregroundColor: Colors.white,
-                            // text
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -238,9 +236,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
                                 backgroundColor: Theme.of(
                                   context,
                                 ).colorScheme.primary,
-                                // deep purple
                                 foregroundColor: Colors.white,
-                                // text
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 14,
                                 ),

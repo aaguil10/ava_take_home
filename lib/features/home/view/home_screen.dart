@@ -1,3 +1,4 @@
+import 'package:ava_take_home/features/feedback/view/feedback_card.dart';
 import 'package:ava_take_home/features/home/cubit/home_cubit.dart';
 import 'package:ava_take_home/features/home/cubit/home_state.dart';
 import 'package:ava_take_home/features/home/widgets/credit_account_card.dart';
@@ -21,8 +22,16 @@ class HomeScreen extends StatelessWidget {
         title: Text('Home'),
         leading: IconButton(
           icon: Icon(Icons.settings_outlined, color: Colors.white),
-          onPressed: () {
-            context.push('/employment');
+          onPressed: () async {
+            final val = await context.push('/employment');
+            if ((val ?? false) == true) {
+              FeedbackCard.showFeedbackSheet(
+                context: context,
+                onSubmit: (String feedback) {
+                  context.pop();
+                },
+              );
+            }
           },
         ),
       ),

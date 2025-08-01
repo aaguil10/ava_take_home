@@ -1,7 +1,6 @@
 import 'package:ava_take_home/features/employment/cubit/employment_cubit.dart';
 import 'package:ava_take_home/features/employment/data/shared_prefs_employment_repository.dart';
 import 'package:ava_take_home/features/employment/view/employment_info_page.dart';
-import 'package:ava_take_home/features/feedback/view/feedback_page.dart';
 import 'package:ava_take_home/features/home/cubit/home_cubit.dart';
 import 'package:ava_take_home/features/home/data/mock_home_repository.dart';
 import 'package:ava_take_home/features/home/view/home_screen.dart';
@@ -32,11 +31,6 @@ class AppRouter {
                 ..load(),
           child: const EmploymentInfoPage(),
         ),
-      ),
-      GoRoute(
-        path: '/feedback',
-        name: 'feedback',
-        builder: (context, state) => const FeedbackPage(),
       ),
     ],
   );
