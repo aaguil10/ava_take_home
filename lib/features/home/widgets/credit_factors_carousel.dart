@@ -50,7 +50,7 @@ class _CreditFactorCard extends StatelessWidget {
     final textColor = factor.impact == 'LOW IMPACT' ? textGreen : Colors.white;
 
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       elevation: 2,
       child: Container(
         width: 145,

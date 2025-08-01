@@ -38,8 +38,13 @@ void main() {
         ],
       );
       when(() => mockRepo.fetchCreditCardAccounts()).thenAnswer(
-        (_) async => const [
-          CreditCardAccount(name: 'Syncb/Amazon', balance: 1500, limit: 6300),
+        (_) async => [
+          CreditCardAccount(
+            name: 'Syncb/Amazon',
+            balance: 1500,
+            limit: 6300,
+            reportedAt: DateTime.now(),
+          ),
         ],
       );
       homeCubit = HomeCubit(repository: mockRepo);

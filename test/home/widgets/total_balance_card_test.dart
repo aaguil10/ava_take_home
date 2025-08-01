@@ -6,8 +6,18 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('TotalBalanceCard Widget', () {
     final accounts = [
-      CreditCardAccount(balance: 500, limit: 1000, name: 'Bank A'),
-      CreditCardAccount(balance: 300, limit: 1000, name: 'Bank B'),
+      CreditCardAccount(
+        balance: 500,
+        limit: 1000,
+        name: 'Bank A',
+        reportedAt: DateTime.now(),
+      ),
+      CreditCardAccount(
+        balance: 300,
+        limit: 1000,
+        name: 'Bank B',
+        reportedAt: DateTime.now(),
+      ),
     ];
 
     testWidgets('renders total balance and total limit correctly', (

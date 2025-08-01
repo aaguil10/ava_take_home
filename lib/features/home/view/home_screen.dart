@@ -1,5 +1,6 @@
 import 'package:ava_take_home/features/home/cubit/home_cubit.dart';
 import 'package:ava_take_home/features/home/cubit/home_state.dart';
+import 'package:ava_take_home/features/home/widgets/credit_account_card.dart';
 import 'package:ava_take_home/features/home/widgets/credit_factors_carousel.dart';
 import 'package:ava_take_home/features/home/widgets/credit_score_card.dart';
 import 'package:ava_take_home/features/home/widgets/credit_score_chart.dart';
@@ -86,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                         return _buildTile(
                           context,
                           'Open credit card accounts',
-                          Card(),
+                          CreditAccountCard(accounts: state.accounts),
                         );
                       default:
                         return const SizedBox.shrink();

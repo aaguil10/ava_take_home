@@ -48,9 +48,25 @@ class MockHomeRepository implements HomeRepository {
   @override
   Future<List<CreditCardAccount>> fetchCreditCardAccounts() async {
     await Future.delayed(const Duration(milliseconds: 300));
-    return const [
-      CreditCardAccount(name: 'Syncb/Amazon', balance: 1500, limit: 6300),
-      CreditCardAccount(name: 'Capital One', balance: 500, limit: 4000),
+    return [
+      CreditCardAccount(
+        name: 'Syncb/Amazon',
+        balance: 1500,
+        limit: 6300,
+        reportedAt: DateTime.now(),
+      ),
+      CreditCardAccount(
+        name: 'Capital One',
+        balance: 500,
+        limit: 4000,
+        reportedAt: DateTime.now(),
+      ),
+      CreditCardAccount(
+        name: 'Chase',
+        balance: 34,
+        limit: 2500,
+        reportedAt: DateTime.now(),
+      ),
     ];
   }
 
