@@ -4,6 +4,7 @@ import 'package:ava_take_home/features/home/widgets/credit_factors_carousel.dart
 import 'package:ava_take_home/features/home/widgets/credit_score_card.dart';
 import 'package:ava_take_home/features/home/widgets/credit_score_chart.dart';
 import 'package:ava_take_home/features/home/widgets/spend_limit_card.dart';
+import 'package:ava_take_home/features/home/widgets/total_balance_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -77,7 +78,7 @@ class HomeScreen extends StatelessWidget {
                                 accountDetails: state.accountDetails,
                               ),
                               SizedBox(height: 16),
-                              Card(),
+                              TotalBalanceCard(accounts: state.accounts),
                             ],
                           ),
                         );

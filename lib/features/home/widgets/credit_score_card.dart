@@ -50,7 +50,11 @@ class CreditScoreCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 50),
-              NumberCircle(number: score, maxNumber: 850, label: label),
+              NumberCircle(
+                number: score.toDouble(),
+                maxNumber: 850,
+                label: label,
+              ),
             ],
           ),
         ),
@@ -70,7 +74,7 @@ class CreditScoreCard extends StatelessWidget {
               height: 20,
               width: 50,
               decoration: BoxDecoration(
-                color: delta > 0 ? secondaryGreen : errorRed,
+                color: delta > 0 ? secondaryGreen : notGoodRed,
                 borderRadius: BorderRadius.all(Radius.circular(16)),
               ),
             ),

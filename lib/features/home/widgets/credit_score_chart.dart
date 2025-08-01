@@ -119,7 +119,7 @@ class _CreditScoreChartState extends State<CreditScoreChart>
                       height: 20,
                       width: 50,
                       decoration: BoxDecoration(
-                        color: delta > 0 ? secondaryGreen : errorRed,
+                        color: delta > 0 ? secondaryGreen : notGoodRed,
                         borderRadius: BorderRadius.all(Radius.circular(16)),
                       ),
                     ),

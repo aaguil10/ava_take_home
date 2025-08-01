@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NumberCircle extends StatefulWidget {
-  final int maxNumber;
-  final int number;
+  final double maxNumber;
+  final double number;
   final String label;
 
   const NumberCircle({
@@ -89,7 +89,9 @@ class _NumberCircleState extends State<NumberCircle>
                   SizedBox(
                     height: 40,
                     child: Text(
-                      _animation.value.toInt().toString(),
+                      _animation.value > 1
+                          ? _animation.value.toInt().toString()
+                          : '${(_animation.value * 100).toStringAsFixed(0)}%',
                       // Closest font I could find to "At Slam Cnd"
                       style: GoogleFonts.oswald(
                         textStyle: Theme.of(context).textTheme.titleMedium,
