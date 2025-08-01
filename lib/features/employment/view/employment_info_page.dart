@@ -14,7 +14,7 @@ class EmploymentInfoPage extends StatefulWidget {
 }
 
 class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
-  static const double inputFieldHeight = 60;
+  static const double inputFieldHeight = 65;
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _employerCtrl;
   late TextEditingController _jobTitleCtrl;
@@ -78,6 +78,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(backgroundColor: creamBackground, leading: BackButton()),
       body: BlocListener<EmploymentCubit, EmploymentState>(
         listenWhen: (previous, current) {
@@ -400,15 +401,19 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
         const SizedBox(height: 4),
         enabled
             ? SizedBox(
-                height: inputFieldHeight,
+                height: inputFieldHeight + 10,
                 child: InputDecorator(
                   decoration: inputDecoration(),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       value: value,
                       isExpanded: true,
+                      alignment: Alignment.centerLeft,
                       icon: const Icon(Icons.keyboard_arrow_down_rounded),
                       iconSize: 24,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyLarge?.copyWith(height: 1.0),
                       onChanged: enabled ? (v) => onChanged(v!) : null,
                       items: items
                           .map(
