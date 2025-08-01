@@ -32,10 +32,6 @@ class EmploymentCubit extends Cubit<EmploymentState> {
   Future<void> saveAndConfirm() async {
     emit(state.copyWith(isSaving: true));
     await repository.saveEmploymentInfo(state.info);
-    emit(state.copyWith(isSaving: false, nav: EmploymentNav.toFeedback));
-  }
-
-  void clearNav() {
-    emit(state.copyWith(nav: EmploymentNav.none));
+    emit(state.copyWith(isSaving: false));
   }
 }

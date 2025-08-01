@@ -60,7 +60,6 @@ void main() {
       seed: () => EmploymentState(
         info: EmploymentInfo.empty(),
         mode: EmploymentMode.view,
-        nav: EmploymentNav.none,
         isLoading: false,
         isSaving: false,
       ),
@@ -68,9 +67,7 @@ void main() {
       wait: const Duration(milliseconds: 150),
       expect: () => [
         isA<EmploymentState>().having((s) => s.isSaving, 'saving', true),
-        isA<EmploymentState>()
-            .having((s) => s.isSaving, 'saved', false)
-            .having((s) => s.nav, 'nav', EmploymentNav.toFeedback),
+        isA<EmploymentState>().having((s) => s.isSaving, 'saved', false),
       ],
     );
   });
