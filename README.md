@@ -33,12 +33,10 @@ Flutter best practices.
 - **State Management:** Used Cubit (`flutter_bloc`) for predictable state handling.
 - **Persistence:** User’s employment data is saved locally using `shared_preferences`, ensuring it
   persists across app restarts.
-- **Animations:**
-    - Credit score indicator uses a custom animated widget.
-    - Chart uses `AnimatedContainer`/`TweenAnimationBuilder`.
-    - Progress bars use `AnimatedContainer` for smooth transitions.
+- **Animations:** Most animations use `AnimatedBuilder` and `TweenAnimationBuilder` for smooth
+  transitions.
 - **Navigation:** Used `go_router` for clean screen transitions.
-- **Testing:** Added widget tests for form validation and Cubit tests for state changes.
+- **Testing:** Added widget tests for form and UI validation and Cubit tests for state changes.
 
 ---
 
