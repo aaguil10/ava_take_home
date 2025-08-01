@@ -132,6 +132,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
                       // Employer
                       _buildTextField(
                         'Employer',
+                        key: const Key('employerField'),
                         controller: _employerCtrl,
                         enabled: isEditing,
                         validator: _letterValidator,
@@ -139,6 +140,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
                       const SizedBox(height: 16),
                       _buildTextField(
                         'Job title',
+                        key: const Key('jobTitleField'),
                         controller: _jobTitleCtrl,
                         enabled: isEditing,
                         validator: _letterValidator,
@@ -146,6 +148,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
                       const SizedBox(height: 16),
                       _buildTextField(
                         'Gross annual income',
+                        key: const Key('grossAnnualIncomeField'),
                         controller: _incomeCtrl,
                         enabled: isEditing,
                         validator: _numberValidator,
@@ -167,6 +170,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
                       const SizedBox(height: 16),
                       _buildTextField(
                         'Employer address',
+                        key: const Key('employerAddressField'),
                         controller: _addressCtrl,
                         enabled: isEditing,
                         maxLines: 2,
@@ -428,6 +432,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
 
   Widget _buildTextField(
     String label, {
+    Key? key,
     required TextEditingController controller,
     bool enabled = true,
     int maxLines = 1,
@@ -440,6 +445,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
         const SizedBox(height: 4),
         enabled
             ? SizedBox(
+                key: key,
                 height: inputFieldHeight,
                 child: TextFormField(
                   controller: controller,
