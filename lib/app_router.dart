@@ -1,3 +1,5 @@
+import 'package:ava_take_home/features/employment/cubit/employment_cubit.dart';
+import 'package:ava_take_home/features/employment/data/shared_prefs_employment_repository.dart';
 import 'package:ava_take_home/features/employment/view/employment_info_page.dart';
 import 'package:ava_take_home/features/feedback/view/feedback_page.dart';
 import 'package:ava_take_home/features/home/cubit/home_cubit.dart';
@@ -24,7 +26,12 @@ class AppRouter {
       GoRoute(
         path: '/employment',
         name: 'employment',
-        builder: (context, state) => const EmploymentInfoPage(),
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              EmploymentCubit(repository: SharedPrefsEmploymentRepository())
+                ..load(),
+          child: const EmploymentInfoPage(),
+        ),
       ),
       GoRoute(
         path: '/feedback',
