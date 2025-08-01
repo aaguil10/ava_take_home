@@ -14,6 +14,7 @@ class EmploymentInfoPage extends StatefulWidget {
 }
 
 class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
+  static const double inputFieldHeight = 60;
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _employerCtrl;
   late TextEditingController _jobTitleCtrl;
@@ -133,18 +134,21 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
                         'Employer',
                         controller: _employerCtrl,
                         enabled: isEditing,
+                        validator: _letterValidator,
                       ),
                       const SizedBox(height: 16),
                       _buildTextField(
                         'Job title',
                         controller: _jobTitleCtrl,
                         enabled: isEditing,
+                        validator: _letterValidator,
                       ),
                       const SizedBox(height: 16),
                       _buildTextField(
                         'Gross annual income',
                         controller: _incomeCtrl,
                         enabled: isEditing,
+                        validator: _numberValidator,
                       ),
                       const SizedBox(height: 16),
                       _buildDropdown(
@@ -166,6 +170,10 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
                         controller: _addressCtrl,
                         enabled: isEditing,
                         maxLines: 2,
+                        validator: (s) {
+                          if (s == null || s.trim().isEmpty) return 'Required';
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 16),
                       // Time with employer
@@ -301,6 +309,22 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
     );
   }
 
+  String? _letterValidator(s) {
+    if (s == null || s.trim().isEmpty) return 'Required';
+    if (!RegExp(r'^[A-Za-z ]+$').hasMatch(s.trim())) {
+      return 'Must be letters and spaces only';
+    }
+    return null;
+  }
+
+  String? _numberValidator(s) {
+    if (s == null || s.trim().isEmpty) return 'Required';
+    if (!RegExp(r'^\d+$').hasMatch(s.trim())) {
+      return 'Must be numbers only';
+    }
+    return null;
+  }
+
   Widget _buildHeader(BuildContext context, EmploymentState state) {
     return state.mode == EmploymentMode.edit
         ? Text(
@@ -344,6 +368,8 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
   }
 
   InputDecoration inputDecoration() => InputDecoration(
+    // reserve one line for error message
+    helperText: ' ',
     border: OutlineInputBorder(
       borderSide: BorderSide(color: Colors.black.withAlpha(15)),
       borderRadius: BorderRadius.circular(8),
@@ -352,7 +378,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
       borderSide: BorderSide(color: Colors.black.withAlpha(15)),
       borderRadius: BorderRadius.circular(8),
     ),
-    filled: true, // Crucially, you must set this to true
+    filled: true,
     fillColor: Colors.white,
   );
 
@@ -370,7 +396,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
         const SizedBox(height: 4),
         enabled
             ? SizedBox(
-                height: 45,
+                height: inputFieldHeight,
                 child: InputDecorator(
                   decoration: inputDecoration(),
                   child: DropdownButtonHideUnderline(
@@ -405,6 +431,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
     required TextEditingController controller,
     bool enabled = true,
     int maxLines = 1,
+    String? Function(String?)? validator = null,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -413,12 +440,13 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
         const SizedBox(height: 4),
         enabled
             ? SizedBox(
-                height: 45,
-                child: TextField(
+                height: inputFieldHeight,
+                child: TextFormField(
                   controller: controller,
                   enabled: enabled,
                   maxLines: maxLines,
                   decoration: inputDecoration(),
+                  validator: validator,
                 ),
               )
             : _buildFieldValue(controller.text),
@@ -446,7 +474,7 @@ class _EmploymentInfoPageState extends State<EmploymentInfoPage> {
           const SizedBox(height: 4),
           isEditing
               ? SizedBox(
-                  height: 45,
+                  height: inputFieldHeight,
                   child: TextField(
                     controller: TextEditingController(
                       text: _nextPayday != null

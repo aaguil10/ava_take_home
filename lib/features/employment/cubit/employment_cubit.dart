@@ -26,12 +26,12 @@ class EmploymentCubit extends Cubit<EmploymentState> {
   }
 
   void updateInfo(EmploymentInfo updated) {
-    emit(state.copyWith(info: updated, mode: EmploymentMode.view));
+    emit(state.copyWith(info: updated));
   }
 
   Future<void> saveAndConfirm() async {
     emit(state.copyWith(isSaving: true));
     await repository.saveEmploymentInfo(state.info);
-    emit(state.copyWith(isSaving: false));
+    emit(state.copyWith(isSaving: false, mode: EmploymentMode.view));
   }
 }
