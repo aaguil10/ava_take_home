@@ -16,11 +16,11 @@ class FeedbackCard extends StatefulWidget {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: creamBackground,
       barrierColor: Colors.black.withAlpha(25),
       builder: (ctx) {
         return DraggableScrollableSheet(
-          initialChildSize: 0.5,
+          initialChildSize: 0.6,
           minChildSize: 0.3,
           maxChildSize: 0.75,
           expand: false,
@@ -46,16 +46,19 @@ class _FeedbackCardState extends State<FeedbackCard> {
 
   @override
   Widget build(BuildContext context) {
-    const borderRadius = BorderRadius.all(Radius.circular(16));
     return Center(
       child: Container(
         decoration: BoxDecoration(
           color: creamBackground,
-          borderRadius: borderRadius,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+          border: Border(top: BorderSide(color: primaryPurpleLight, width: 14)),
         ),
         padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 16),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Stack(
               children: [
@@ -87,7 +90,6 @@ class _FeedbackCardState extends State<FeedbackCard> {
                 controller: _controller,
                 maxLines: null,
                 expands: true,
-
                 textAlignVertical: TextAlignVertical.top,
                 decoration: InputDecoration(
                   hint: Text('It’s been very helpful so far!'),
