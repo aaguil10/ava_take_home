@@ -11,6 +11,21 @@ final ColorScheme _myScheme = ColorScheme.fromSeed(seedColor: primaryPurple)
 
 final ThemeData appTheme = ThemeData(
   textTheme: GoogleFonts.robotoTextTheme().copyWith(
+    headlineLarge: GoogleFonts.oswald(
+      fontSize: 40,
+      fontWeight: FontWeight.bold,
+      color: textPrimaryDark,
+    ),
+    headlineMedium: GoogleFonts.oswald(
+      fontSize: 32,
+      fontWeight: FontWeight.bold,
+      color: textPrimaryDark,
+    ),
+    headlineSmall: GoogleFonts.roboto(
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: textLight,
+    ),
     titleLarge: GoogleFonts.roboto(
       fontSize: 22,
       fontWeight: FontWeight.bold,
@@ -47,7 +62,8 @@ final ThemeData appTheme = ThemeData(
       fontWeight: FontWeight.bold,
       color: textPrimaryDark,
     ),
-  ), // Closest to 'At Hauss' font
+  ),
+  // Closest to 'At Hauss' font
   cardTheme: CardThemeData(
     color: Colors.white,
     elevation: 2,
@@ -62,4 +78,5 @@ final ThemeData appTheme = ThemeData(
       color: Colors.white,
     ),
   ),
+  useMaterial3: true,
 );

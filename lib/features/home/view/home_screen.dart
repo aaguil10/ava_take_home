@@ -53,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                     horizontal: 16,
                     vertical: 16,
                   ),
-                  itemCount: 4,
+                  itemCount: 5,
                   separatorBuilder: (_, __) => const SizedBox(height: 16),
                   itemBuilder: (context, index) {
                     switch (index) {
@@ -89,6 +89,8 @@ class HomeScreen extends StatelessWidget {
                           'Open credit card accounts',
                           CreditAccountCard(accounts: state.accounts),
                         );
+                      case 4:
+                        return SizedBox(height: 16);
                       default:
                         return const SizedBox.shrink();
                     }

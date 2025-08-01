@@ -1,6 +1,5 @@
 import 'package:ava_take_home/core/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class NumberCircle extends StatefulWidget {
   final double maxNumber;
@@ -93,11 +92,7 @@ class _NumberCircleState extends State<NumberCircle>
                           ? _animation.value.toInt().toString()
                           : '${(_animation.value * 100).toStringAsFixed(0)}%',
                       // Closest font I could find to "At Slam Cnd"
-                      style: GoogleFonts.oswald(
-                        textStyle: Theme.of(context).textTheme.titleMedium,
-                        fontSize: 32, // optional override
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: Theme.of(context).textTheme.headlineMedium,
                     ),
                   ),
                   const SizedBox(height: 0),
