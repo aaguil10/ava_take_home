@@ -43,11 +43,9 @@ class _TotalBalanceCardState extends State<TotalBalanceCard> {
       'color': secondaryGreen,
       'range': '0-9%',
     },
-    {'spacer': true},
     {'max': 30.0, 'label': 'Good', 'color': secondaryGreen, 'range': '10-29%'},
     {'max': 50.0, 'label': 'Fair', 'color': okOrange, 'range': '30-49%'},
     {'max': 75.0, 'label': 'Poor', 'color': notGoodRed, 'range': '50-74%'},
-    {'spacer': true},
     {
       'max': double.infinity,
       'label': 'Bad',
@@ -58,7 +56,7 @@ class _TotalBalanceCardState extends State<TotalBalanceCard> {
 
   Map<String, dynamic> get _ratingInfo {
     final percent = utilization * 100;
-    return _ranges.firstWhere((r) => r['spacer'] != true && percent < r['max']);
+    return _ranges.firstWhere((r) => percent < r['max']);
   }
 
   String get rating => _ratingInfo['label'];
@@ -89,7 +87,6 @@ class _TotalBalanceCardState extends State<TotalBalanceCard> {
                 _buildRangeBarLabel(context),
                 _buildRangeBar(context),
                 _buildPercentageTicks(),
-                _buildPercentageLabels(),
               ],
             ),
           ],
@@ -129,14 +126,9 @@ class _TotalBalanceCardState extends State<TotalBalanceCard> {
 
   Widget _buildRangeBarLabel(BuildContext context) {
     final groups = [
-      _ranges.where(
-        (r) =>
-            r['spacer'] != true && ['Excellent', 'Good'].contains(r['label']),
-      ),
-      _ranges.where((r) => r['spacer'] != true && r['label'] == 'Fair'),
-      _ranges.where(
-        (r) => r['spacer'] != true && ['Poor', 'Bad'].contains(r['label']),
-      ),
+      _ranges.where((r) => ['Excellent', 'Good'].contains(r['label'])),
+      _ranges.where((r) => r['label'] == 'Fair'),
+      _ranges.where((r) => ['Poor', 'Bad'].contains(r['label'])),
     ];
 
     return SizedBox(
@@ -210,34 +202,55 @@ class _TotalBalanceCardState extends State<TotalBalanceCard> {
     return Padding(
       padding: const EdgeInsets.only(top: 3),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: _ranges.map((item) {
-          if (item['spacer'] == true) {
-            return Container(color: Colors.transparent, width: 1, height: 8);
-          }
-          final isActive = rating == item['label'];
-          return Container(
-            width: 1,
-            height: 8,
-            color: isActive ? ratingColor : disabledGray,
-          );
-        }).toList(),
+        children: [
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildPercentageLabels(CrossAxisAlignment.start, _ranges[0]),
+                _buildPercentageLabels(CrossAxisAlignment.end, _ranges[1]),
+              ],
+            ),
+          ),
+          Expanded(
+            child: _buildPercentageLabels(
+              CrossAxisAlignment.center,
+              _ranges[2],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildPercentageLabels(CrossAxisAlignment.start, _ranges[3]),
+                _buildPercentageLabels(CrossAxisAlignment.end, _ranges[4]),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildPercentageLabels() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: _ranges.where((item) => item['spacer'] != true).map((item) {
-        final isActive = rating == item['label'];
-        return Text(
-          item['range'],
+  Widget _buildPercentageLabels(
+    CrossAxisAlignment crossAxisAlignment,
+    Map<String, dynamic> range,
+  ) {
+    return Column(
+      crossAxisAlignment: crossAxisAlignment,
+      children: [
+        Container(
+          width: 1,
+          height: 8,
+          color: rating == range['label'] ? ratingColor : disabledGray,
+        ),
+        Text(
+          range['range'],
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: isActive ? ratingColor : textLight,
+            color: rating == range['label'] ? ratingColor : textLight,
           ),
-        );
-      }).toList(),
+        ),
+      ],
     );
   }
 }
